@@ -76,7 +76,7 @@ else:
 #st.sidebar.markdown("""---""")
 
 busq_radio = st.sidebar.radio("## **Tipo de busqueda:**", ["Exacta", "Aproximada"])
-textos = st.sidebar.text_area("## **Ingresa los terminos a buscar** 🔎", height=200, placeholder="Ingrese los terminos a buscar separados por comas - Ejemplo: delegacion, infonavit, gerente, imss")
+textos = st.sidebar.text_area("## **Ingresa los terminos a buscar:** 🔎", height=200, placeholder="Ingrese los terminos a buscar separados por comas - Ejemplo: delegacion, infonavit, gerente, imss")
 textos = textos.replace("\n", ",")
 textos= textos.replace(", ",",")
 texto_split = textos.split(",")
@@ -84,7 +84,7 @@ print(texto_split)
 
 #st.sidebar.markdown("""---""")
 if not df2.empty:
-    busq_cols = st.sidebar.selectbox("## Buscar en los siguiente columna", list(df2.columns.values.tolist()))
+    busq_cols = st.sidebar.selectbox("## **Buscar en los siguiente columna:**", list(df2.columns.values.tolist()))
 
 
 #texto_join_and = (r'^(?=.*Good)(?=.*East)')
