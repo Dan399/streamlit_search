@@ -7,4 +7,4 @@ folium
 datetime
 matplotlib
 seaborn
-streamlit.components.v1
+
