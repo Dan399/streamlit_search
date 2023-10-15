@@ -14,8 +14,6 @@ import streamlit.components.v1 as components
 from datetime import date
 
 d_index = 1
-
-
   
 # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.set_page_config(page_title="Buscador Boletin TFJA", page_icon="⚖", layout="wide",)
@@ -77,19 +75,15 @@ else:
 
 busq_radio = st.sidebar.radio("## **Tipo de busqueda:**", ["Exacta", "Aproximada"])
 textos = st.sidebar.text_area("## **Ingresa los terminos a buscar:** 🔎", height=200, placeholder="Ingrese los terminos a buscar separados por comas - Ejemplo: delegacion, infonavit, gerente, imss")
-textos = textos.replace("\n", ",")
-textos= textos.replace(", ",",")
-texto_split = textos.split(",")
-print(texto_split)
+textos = textos.replace("\n", "-")
+textos = textos.replace(",","-")
+textos= textos.replace(", ","-")
+textos = textos.replace("--","-")
+texto_split = textos.split("-")
 
 #st.sidebar.markdown("""---""")
 if not df2.empty:
     busq_cols = st.sidebar.selectbox("## **Buscar en los siguiente columna:**", list(df2.columns.values.tolist()))
-
-
-#texto_join_and = (r'^(?=.*Good)(?=.*East)')
-#print(texto_join)
-
 
 # ------ CODE FOR BUTTON ------
 if st.sidebar.button("Buscar 🔎",type="primary"):
