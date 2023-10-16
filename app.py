@@ -14,11 +14,9 @@ import streamlit.components.v1 as components
 from datetime import date
 
 d_index = 1
-  
+
 # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.set_page_config(page_title="Buscador Boletin TFJA", page_icon="⚖", layout="wide",)
-
-
 
 # ---- HIDE STREAMLIT STYLE ----
 hide_st_style = """
@@ -32,30 +30,24 @@ st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
 def buscar_text_and(cadd):
-    #df3 = df2[df2['Parte Demandada'].str.contains('^(?=.*quintana roo)(?=.*vivienda)', case = False)]
     df3 = df2[df2[busq_cols].str.contains(cadd, case = False)]
-    #print(busq_cols)
-    #print(texto_split)
-    #df3 = df2[df2["Parte Demandada"].isin(['*quintana roo'])]
-    print(df3.head())
-    #st.markdown("""---""")
     if df3.empty == False:
         st.dataframe(df3, height=700)
+        st.write("**Se encontraron %s registros que coinciden en el campo - %s -.**" % (str(df3[busq_cols].count()), busq_cols))
     else:
         st.warning('No existen resultados para esta busqueda.', icon='⚠')
 
 def buscar_texto_or(textos):
     df3 = df2[df2['Parte Demandada'].str.contains(textos, case=False)]
-    #st.markdown("""---""")
     if df3.empty == False:
         st.dataframe(df3, height=700)
+        st.write("**Se encontraron %s registros**" % str(df3[busq_cols].count()))
     else:
         st.warning('No existen resultados para esta busqueda.', icon='⚠')
 
 
 # ----  MAINPAGE ----
 st.header("⚖ Buscador Boletin Jurisdiccional")
-#st.markdown("""---""")   
 
 # -------------- SIDEBAR ---------------------
 
@@ -66,24 +58,24 @@ uploaded_file = st.sidebar.file_uploader("## **Elige un archivo...**", type=[".c
 if uploaded_file is not None:
     # To read file as bytes:
     df2 = pd.read_csv(uploaded_file)
-    #df2 = df.apply(lambda x: x.str.lower() if x.dtype == "object" else x)
 else:
     df2 =pd.DataFrame()
     st.sidebar.error('### **No se ha cargado archivo para analizar.**', icon="ℹ️")
 
-#st.sidebar.markdown("""---""")
 
 busq_radio = st.sidebar.radio("## **Tipo de busqueda:**", ["Exacta", "Aproximada"])
 textos = st.sidebar.text_area("## **Ingresa los terminos a buscar:** 🔎", height=200, placeholder="Ingrese los terminos a buscar separados por comas - Ejemplo: delegacion, infonavit, gerente, imss")
+
 textos = textos.replace("\n", "-")
 textos = textos.replace(",","-")
 textos= textos.replace(", ","-")
 textos = textos.replace("--","-")
 texto_split = textos.split("-")
 
-#st.sidebar.markdown("""---""")
+
 if not df2.empty:
     busq_cols = st.sidebar.selectbox("## **Buscar en los siguiente columna:**", list(df2.columns.values.tolist()))
+
 
 # ------ CODE FOR BUTTON ------
 if st.sidebar.button("Buscar 🔎",type="primary"):
@@ -99,6 +91,42 @@ if st.sidebar.button("Buscar 🔎",type="primary"):
         texto_join = "|".join(texto_split)
         buscar_texto_or(texto_join)
         #print("texto join", texto_join)
+
+expander = st.sidebar.expander("Instrucciones de uso...")
+expander.write(" 1. Descargar el Boletin Jurisdiccional en la pagina de la TFJA https://www.tfja.gob.mx/boletin/jurisdiccional/ en formato .CSV  \n 2. Cargar/Subir el archivo descargado en la parte superior para iniciar la busqueda. \n 3. Ingresar los conceptos/teminos a buscar separados por (,) y dar click en buscar. \n 4. Busqueda Exacta: Devuelve la busqueda de filas donde aparezcan el o los teminos completos. \n 5. Busqueda Aproximada: Devuelve todas las filas donde aparcezca cualquiera de los terminos buscados.")
+
+
+footer="""<style>
+a:link , a:visited{
+color: blue;
+background-color: transparent;
+text-decoration: underline;
+}
+
+a:hover,  a:active {
+color: red;
+background-color: transparent;
+text-decoration: underline;
+}
+
+.footer {
+position: fixed;
+left: 0;
+bottom: 0;
+width: 98%;
+background-color: white;
+color: black;
+text-align: right;
+
+}
+</style>
+<div class="footer">
+<p>Developed by 👨‍💻<a style='display: block; text-align: right;' href="https://www.linkedin.com/in/daniel-l%C3%B3pez-villegas-0aaa353b/" target="_blank">Daniel López Villegas</a></p>
+</div>
+"""
+st.markdown(footer,unsafe_allow_html=True)
+
+
 
 
 
