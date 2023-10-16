@@ -113,7 +113,7 @@ text-decoration: underline;
 position: fixed;
 left: 0;
 bottom: 0;
-width: 98%;
+width: 95%;
 background-color: white;
 color: black;
 text-align: right;
