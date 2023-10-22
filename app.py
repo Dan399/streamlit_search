@@ -53,7 +53,7 @@ st.header("⚖ Buscador Boletin Jurisdiccional")
 
 #Upload a file, TFJA in format .csv 
 st.sidebar.subheader(" **Carga del Boletín** 📑")
-uploaded_file = st.sidebar.file_uploader("## **Elige un archivo...**", type=[".csv"], accept_multiple_files=False)
+uploaded_file = st.sidebar.file_uploader("## **Elige el archivo a cargar en formato .csv**", type=[".csv"], accept_multiple_files=False)
 
 if uploaded_file is not None:
     # To read file as bytes:
